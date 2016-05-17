@@ -13,18 +13,12 @@
 
 using namespace std;
 
-//bool error;
-//MegaTable *tables;
-//std::map<std::string, Symbol> *symbolTable;
-//std::map<std::string, Procedure> pros;
-//int proCount;
-
-
 int main(){
 	
+	// bool error and other variables are set in parseTree.h
 	error = false;
-//counter < tables->size()-1) 
-string temp[]= { "BOF", "BECOMES", "COMMA", "ELSE", "EOF", "EQ", "GE", "GT",
+
+	string temp[]= { "BOF", "BECOMES", "COMMA", "ELSE", "EOF", "EQ", "GE", "GT",
 	          "ID", "IF", "INT", "LBRACE", "LE", "LPAREN", "LT", "MINUS",
                  "NE", "NUM", "PCT", "PLUS", "PRINTLN", "RBRACE", "RETURN",
                   "RPAREN", "SEMI", "SLASH", "STAR", "WAIN", "WHILE", "AMP",
@@ -42,25 +36,16 @@ string temp[]= { "BOF", "BECOMES", "COMMA", "ELSE", "EOF", "EQ", "GE", "GT",
 	(*tables)["procedures"] = new map<string, Symbol>;
 	
 	TreeNode *root = new TreeNode();
-//	root->printHi();
-	//root->testTraverse(0);
+
+	// compilation happens here
 	try{
 		root->makeSymbolTable("noPrint");
 		root->searchUndeclaredSymbols("noPrint");	
 		root->checkArgslist();
-	//	cout << "checking wellTyped() "<< endl;
 		string tempString = root->checkWellTyped("");
 	 	printTables();
-		
 		printSymbolTables();
-
-
 		root->assembleMips("");
-
-//		cerr << endl << "printing procedures " << endl;
-//	for (map<string, Procedure>::iterator it = pros.begin(); it != pros.end(); ++it){
-//			cerr << it->first << " " << it->second.order << endl;
-//		}
 	} catch(string e){
 		cerr << e << endl;
 	} catch(...){

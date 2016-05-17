@@ -81,9 +81,7 @@ void TreeNode::pushArgs(string sig){
 	}
 }
 void TreeNode::popArgs(string sig){
-	//this->children[0]->computeExpr(sig);
 	cout << "add $30, $30, $4" << endl;
-//	cout << "lw $3, -4($30)" << endl;
 	
 	if(this->size == 3){
 		this->children[2]->popArgs(sig);

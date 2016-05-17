@@ -2,7 +2,6 @@
 
 using namespace std;
 
-//stack<int> s = stack<int>();
 int offset = 0;
 int loopCounter = 0;
 int ifCounter = 0;
@@ -17,7 +16,6 @@ void TreeNode::assembleMips(string sig){
 }
 void TreeNode::findMain(string sig){
 	if(this->lhs == "main"){
-//		cout << "getting main sig" << endl;
 		sig = "wain " + this->getSigMain();
 
 		this->assembleMain(sig);
@@ -34,21 +32,11 @@ void TreeNode::assembleProcedures(string sig){
 		cerr << this->lhs << " " << this->rhs << endl;
 
 	if(this->children[0]->lhs == "main"){
-//		cout << "getting main sig" << endl;
-//		string sig = "wain " + this->getSigMain();
-
-//		this->assembleMain(sig);
 	}else{
-	//	cout << "current node: " << endl;
-	//	cout << this->lhs << " " << this->rhs << endl;
 		sig = this->children[0]->getSig();
 		cout << ";got sig " << sig << endl;	
 		this->children[0]->assembleProc(sig);		
-		
-
-	
 		this->children[1]->assembleProcedures(sig);
-		
 	}
 	
 }
@@ -88,15 +76,9 @@ void TreeNode::assembleProc(string sig){
 		offset += 4*  this->children[3]->children[0]->getNumParams();
 		this->children[3]->children[0]->storeParams(sig);
 	}
-//this->store paramas
-
 	cout << "sub $29, $30, $4" << endl;
 
 	this->children[6]->assembleDcls(sig);
-
-	// save regs
-//	cout << 
-
 
 	pushRegs();
 
@@ -121,7 +103,6 @@ void TreeNode::storeParams(string sig){
 }
 
 void TreeNode::assembleMain(string sig){
-//	cout << "assembling main " << endl; 	
 	this->storeMainParams(sig);
 
 	// code for dcls
@@ -130,8 +111,6 @@ void TreeNode::assembleMain(string sig){
 	// code for statements
 	this->children[9]->assembleStatements(sig);
 
-	// return
-	//string result = 
 	this->children[11]->computeExpr(sig);
 
 	cout << "add $30, $29, $4" << endl;
@@ -303,7 +282,6 @@ void TreeNode::storeMainParams(string sig){
 	offset -= 4;
  	(*(*tables)[sig])[param2].offset = offset;
 	offset -= 4;
-//	cout << "done offets" << endl;	
 
 	cout << ".import print" << endl;
 	cout << ".import init" << endl;
@@ -486,7 +464,6 @@ string TreeNode::lValGetId(string sig){
 		return this->children[0]->rhs;
 	} else if(this->size == 2){
 		this->children[1]->computeFactor(sig);
-//		cout << "lw $3, 0($3)" << endl;
 		return "";
 	}
 	return this->children[1]->lValGetId(sig);

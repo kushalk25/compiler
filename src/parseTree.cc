@@ -1,6 +1,8 @@
 #include "parseTree.h"
 
 using namespace std;
+
+// set default values of global variables
 bool error = true;
 set<string> terms = set<string>();
 MegaTable *tables = new MegaTable;
@@ -17,6 +19,7 @@ Symbol::Symbol(){
     this->type = "";
     this->name = "";
 }
+
 // will only be used for the else case
 void Symbol::printSymbol(){
     if(this->type == "procedure"){
@@ -139,11 +142,9 @@ TreeNode::TreeNode(){
     }
 
     void TreeNode::makeSymbolTable(string sig){
-//      cerr << "making symbole table " << this->lhs << endl;
+
 		// if we encounter a procedure make room for it in our MegaTable
-    //    if(this->lhs == "procedure"){
-        if(this->lhs == "procedure"){
-//          cerr << "getting sig" << endl;  
+        if(this->lhs == "procedure"){ 
             string procedureName = "F" + this->children[1]->rhs; 
             if(pros.count(procedureName)){
                 throw "ERROR: duplicate declaration of " + procedureName;
@@ -154,7 +155,6 @@ TreeNode::TreeNode(){
         }
         if(this->lhs == "main"){
             sig = "wain " + this->getSigMain();
-//          cerr << "new table made with sig: " << sig << endl;
             (*tables)[sig] = new map<string, Symbol>;
         }
 
@@ -341,23 +341,16 @@ TreeNode::TreeNode(){
             // children[3]->children[0] is the pamalist of the params for the procedure
             signature = signature + " " + this->children[3]->children[0]->getParams();
         } 
-        //signature = signature + " " + this->children[5]->children[0]->getType();
         return signature;
     }
 
     // takes in a procedure node
     string TreeNode::getParams(){
 
-        
-        //cerr << endl << "node info: " << this->lhs << " " << this->rhs << endl;
-
         string signature = this->children[0]->children[0]->getType();
-        //cerr << "in first sig def: " << signature << endl; 
-//      cerr << "searching paramlist " << endl;
+
         if(this->size > 2){
-            //cerr << "in secondary sig def: " << this->children[2]->lhs << this->children[2]->rhs << endl;
             signature = signature + " " + this->children[2]->getParams();
-            //cerr << "the sig is: " << signature << endl;  
         }
         return signature;
 
@@ -425,7 +418,6 @@ TreeNode::TreeNode(){
         
     }
     void TreeNode::checkArgslist(){
-//      cerr << "making symbole table " << this->lhs << endl;
         string factorName;
         if(this->lhs == "factor" && this->size == 4){
             int numArgs = this->children[2]->getArgsNum();
@@ -477,29 +469,19 @@ TreeNode::TreeNode(){
     }
 
 void printSymbolTables(){
-//  cerr << "map size " << symbolTable->size() << endl;
-
     for (map<string, Symbol>::iterator it = symbolTable->begin(); it != symbolTable->end(); ++it) {
-//  cerr << "in map loop" << endl;
-    it->second.printSymbol();
+        it->second.printSymbol();
     }
 }
 
 void printTables(){
-//  cerr << "map size " << symbolTable->size() << endl;
-
     int counter = 0;
 
     for (MegaTable::iterator it = tables->begin(); it != tables->end(); ++it){
 
         if(it->first != "procedures"){
-    //      cerr << it->first << endl;
-    //  } else {
-//else if(it->first.substr(0,4) == "wain"){
             cerr << it->first << endl;
             for(SymbolTable::iterator it2 = it->second->begin(); it2 != it->second->end(); ++it2){
-//              cerr << "  ";       
-//              cerr << "sig: " << it->first << " symbol: ";
                  it2->second.printSymbol(); 
             }
         }

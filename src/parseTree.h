@@ -15,7 +15,6 @@ extern bool error;
 extern int offset;
 extern int loopCounter;
 
-//extern stack<int> s;
 
 struct Rule {
 	std::string rName;
